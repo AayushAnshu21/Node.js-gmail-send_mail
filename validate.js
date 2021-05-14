@@ -19,7 +19,8 @@ async function readandAuth(fname, getAuth) {
   });
 }
 
-
+//Function to validate the stored credentials and email
+//If token not present , user need to authorize his gmail account to receive token 
 function authorize(credentials, callback) {
   const { client_secret, client_id, redirect_uris } = credentials.web;
   const oAuth2Client = new google.auth.OAuth2(
@@ -35,7 +36,7 @@ function authorize(credentials, callback) {
   });
 }
 
-
+//Function to get token from authorized gmail account by following instruction on terminal
 function getNewToken(oAuth2Client, callback) {
   const authUrl = oAuth2Client.generateAuthUrl({
     access_type: "offline",
@@ -77,7 +78,7 @@ function makeBody(to, from, subject, message) {
 }
 
 
-//Send to email from authenticated user gmail account to given userID
+//Send email from authenticated user gmail account to given userID
 function sendMessage(auth, content,callback) {
   const { to, from, subject, message } = content;
   var mail = makeBody(to, from, subject, message);
@@ -91,9 +92,10 @@ function sendMessage(auth, content,callback) {
       },
     },
     function (err, response) {
-      if (err) callback("The API returned an error: " + err,undefined);
+      if (err)
+        callback("The API returned an error: " + err, undefined);
       else {
-        callback(undefined,response.statusText);
+        callback(undefined, response.statusText + ", email send successfully");
       }
     }
   );
