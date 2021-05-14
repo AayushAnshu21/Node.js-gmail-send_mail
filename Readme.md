@@ -1,7 +1,7 @@
-#Send_Mail
+# Send_Mail
 Api to send E-mail using Gmail api
 
-#How to run ?
+# How to run ?
 
 Before running the app, [credentials.json](https://developers.google.com/gmail/api/quickstart/nodejs) should be downloaded and stored in the root directory.
 
