@@ -30,14 +30,15 @@ function authorize(credentials, callback) {
   );
 
   fs.readFile(TOKEN_PATH, (err, token) => {
-    if (err) return getNewToken(oAuth2Client, callback);
+    if (err) return getNewToken(oAuth2Client);
     oAuth2Client.setCredentials(JSON.parse(token));
-    callback(oAuth2Client);
+    if(callback)
+      callback(oAuth2Client);
   });
 }
 
 //Function to get token from authorized gmail account by following instruction on terminal
-function getNewToken(oAuth2Client, callback) {
+function getNewToken(oAuth2Client) {
   const authUrl = oAuth2Client.generateAuthUrl({
     access_type: "offline",
     scope: SCOPES,
@@ -56,7 +57,7 @@ function getNewToken(oAuth2Client, callback) {
         if (err) return console.error(err);
         console.log("Token stored to", TOKEN_PATH);
       });
-      callback(oAuth2Client);
+
     });
   });
 }
@@ -103,6 +104,7 @@ function sendMessage(auth, content,callback) {
 
 module.exports = {
   readandAuth,
-  sendMessage
+  sendMessage,
+  getNewToken
 };
 
